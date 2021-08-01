@@ -1,0 +1,22 @@
+opencv-python 추가 설치 필요
+
+<<<<<<< HEAD
+docker run --gpus all -it --volume /home/klklp98/speechst1/Auscultation/RespireNet/:/shared_dir/ --userns host --ipc=host --privileged pytorch_cuda_respirenet
+
+docker 실행시 메모리 부족 현상이 발생한다면, --ipc=host 를 넣어주자
+특정한 세그먼트만 메모리에 연결되지 않아 메모리 크기에 따른 에러가 없어지는 것 같다. 
+
+nohup python3 train.py --data_dir ./data --folds_file ./patient_list/patient_list_foldwise.txt --model_path ./model/transformer --lr 1e-3 --batch_size 32 --num_worker 4 --start_epochs 0 --epochs 200 --test_fold 4 > ./model/transformer/train_log.txt&
+
+nohup python3 eval.py --data_dir ./data --folds_file ./patient_list/patient_list_foldwise.txt --batch_size 64 --num_worker 4 --test_fold 4 --checkpoint ./model/ckpt_best_200_-1.pkl > ./eval_log.txt&
+=======
+# 도커 빌드
+docker build --tag=pytorch_cuda_respirenet .
+
+# 도커 이미지 실행
+docker run --gpus all -it --volume /path/to/RespireNet/:/shared_dir/ --userns host --ipc=host --privileged pytorch_cuda_respirenet
+
+# lung 음성 분류 커맨드
+python3 predict.py --wav_file [file_path] --sample_rate 6000 -- model_path ./model/ckpt_best_200_-1.pkl
+>>>>>>> a90781582f8b6a92b45318b6c086358983990f7e
+
